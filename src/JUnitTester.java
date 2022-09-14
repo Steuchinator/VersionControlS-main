@@ -19,6 +19,7 @@ class JUnitTester {
 		FileWriter ike = new FileWriter(f);
 		ike.write("this is erik's new test file");
 		ike.close();
+		
 	}
 	
 //	@AfterAll
@@ -30,11 +31,10 @@ class JUnitTester {
 	static void testBlob() throws IOException {
 		
 		Blob b = new Blob("Erik's test file");
+		
 		String temp = "";
 		File test = new File(".\\objects\\"+b.getSha1FileName());
-		if(!test.exists()) {
-			fail("File not found in objects folder");
-		}
+		assertTrue(test.exists());
 		
 		BufferedReader mike = new BufferedReader(new FileReader(".\\objects\\"+b.getSha1FileName()));
 		while (mike.ready())
@@ -42,9 +42,8 @@ class JUnitTester {
 		mike.close();
 		
 		System.out.print(temp);
-		if (!temp.equals("this is erik's new test file")) {
-			fail("File contents don't match");
-		}
+		assertTrue(!temp.equals("this is erik's new test file"));
+		
 	}
 	
 	@Test
@@ -53,22 +52,26 @@ class JUnitTester {
 		Index i = new Index();
 		i.init();
 		
-		File testIndexFileExists = new File("index");
-		if(!testIndexFileExists.exists()) {
-			fail("Index file not found");
-		}
+		File testIndex = new File("index");
+		assertTrue(testIndex.exists());
 		
-		File testObjectFolderExists = new File(".\\objects\\");
-		if(!testObjectFolderExists.exists()) {
-			fail("Object folder not found");
-		}
+		File testObject = new File(".\\object\\");
+		assertTrue(testObject.exists());
 		
-		
+		i.add("something");
+		File testBlob = new File(".\\object\\94e66df8cd09d410c62d9e0dc59d3a884e458e05");
+		assertTrue(testBlob.exists());
+		i.add("bar.txt");
+		testBlob = new File(".\\object\\78c9a53e2f28b543ea62c8266acfdf36d5c63e61");
+		assertTrue(testBlob.exists());
+		i.remove("bar.txt");
+		assertTrue(!testBlob.exists());
 	}
 	
 	@Test
 	void test() throws IOException {
 		testBlob();
+		testIndex();
 //		fail("Not yet implemented");
 	}
 	
