@@ -9,13 +9,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MrTopicsMan {
-	FileWriter ike;
-	BufferedReader mike;
+	private static FileWriter ike;
+	private BufferedReader mike;
 	public MrTopicsMan() {
 		
 	}
 	
-	public void writeTo(File f, String s) throws IOException {
+	public static void writeTo(File f, String s) throws IOException {
 		ike = new FileWriter(f);
 		ike.write(s);
 		ike.close();
@@ -26,13 +26,17 @@ public class MrTopicsMan {
 		mike = new BufferedReader(new FileReader(f));
 		while (mike.ready())
 			temp += (char)mike.read();
-		
+		mike.close();
 		return temp;
 	}
 	
 	public String shaify(File f) throws IOException{
 		String temp = readContents(f);
 		return fileNameCreator(temp);
+	}
+	
+	public String shaify(String s) throws IOException{
+		return fileNameCreator(s);
 	}
 	
 	public static String fileNameCreator(String in) {

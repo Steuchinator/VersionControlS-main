@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,10 +23,10 @@ class JUnitTester {
 		
 	}
 	
-//	@AfterAll
-//	static void shutDownAfter() throws IOException {
-//		f.delete();
-//	}
+	@AfterAll
+	static void shutDownAfter() throws IOException {
+		f.delete();
+	}
 	
 	@Test
 	static void testBlob() throws IOException {
@@ -69,9 +70,26 @@ class JUnitTester {
 	}
 	
 	@Test
+	static void testBlobSet() throws IOException {
+		ArrayList<String> testList = new ArrayList<String>();
+		MrTopicsMan help = new MrTopicsMan();
+		String s = "";
+		String temp = "blob : 94e66df8cd09d410c62d9e0dc59d3a884e458e05";
+		testList.add(temp);
+		s+=temp;
+		temp = "blob : 78c9a53e2f28b543ea62c8266acfdf36d5c63e61";
+		testList.add(temp);
+		s+=temp;
+		BlobSet set = new BlobSet(testList);
+		File testFile = new File(".\\objects\\"+set.getSetName());
+//		assertTrue(help.readContents(testFile).equals(s));
+	}
+	
+	@Test
 	void test() throws IOException {
 		testBlob();
 		testIndex();
+		testBlobSet();
 //		fail("Not yet implemented");
 	}
 	
